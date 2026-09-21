@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Campo de Flores - Hello Kitty 🌷</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --red: #e4002b;
+            --red-dark: #b8001f;
+            --pink-line: #ff8fb1;
+            --yellow: #ffcf33;
+            --white: #fff;
+            --ink: #4a2f38;
+            --amp: 3deg;
+        }
+
+        * { box-sizing: border-box; }
+
+        html, body { height: 100%; }
+
+        body {
+            margin: 0;
+            overflow: hidden;
+            font-family: 'Quicksand', sans-serif;
+            color: var(--ink);
+            background: #cfe9ff;
+            touch-action: manipulation;
+            -webkit-tap-highlight-color: transparent;
+        }
+
+        body.windy { --amp: 11deg; }
+
+        /* ---------- Cielo ---------- */
+        .sky {
+            position: fixed;
+            inset: 0;
+            background: linear-gradient(180deg, #b9ddff 0%, #dcecff 38%, #ffe3ee 62%, #fff0f5 100%);
+        }
+
+        .sun {
+            position: fixed;
+            top: 5vh;
+            right: 8vw;
+            width: 92px;
+            height: 92px;
+            border-radius: 50%;
+            background: radial-gradient(circle at 35% 35%, #fff6b0, #ffd84d 70%);
+            box-shadow: 0 0 0 14px rgba(255, 224, 120, .35), 0 0 60px 30px rgba(255, 230, 140, .45);
+            animation: glow 5s ease-in-out infinite alternate;
+        }
+
+        @keyframes glow {
+            from { box-shadow: 0 0 0 12px rgba(255, 224, 120, .30), 0 0 50px 24px rgba(255, 230, 140, .40); }
+            to   { box-shadow: 0 0 0 20px rgba(255, 224, 120, .40), 0 0 70px 36px rgba(255, 230, 140, .50); }
+        }
+
+        .cloud {
+            position: fixed;
+            left: -220px;
+            width: 150px;
+            height: 44px;
+            background: #fff;
+            border-radius: 44px;
+            opacity: .95;
+            animation: drift var(--d) linear infinite;
+            animation-delay: var(--s);
+        }
+        .cloud::before, .cloud::after {
+            content: '';
+            position: absolute;
+            background: #fff;
+            border-radius: 50%;
+        }
+        .cloud::before { width: 62px; height: 62px; top: -30px; left: 22px; }
+        .cloud::after  { width: 46px; height: 46px; top: -20px; left: 74px; }
+
+        @keyframes drift { to { transform: translateX(calc(100vw + 460px)); } }
+
+        /* ---------- Colinas ---------- */
+        .hills {
+            position: fixed;
+            left: 0;
+            bottom: 0;
+            width: 100%;
+            height: 66vh;
+        }
+
+        /* ---------- Campo ---------- */
+        #field {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            height: 56vh;
+            z-index: 10;
+            pointer-events: none;
+        }
+
+        .flower {
+            position: absolute;
+            pointer-events: none;
+            transform-origin: 50% 100%;
+        }
+        .flower.plant { animation: grow .7s cubic-bezier(.2, 1.5, .4, 1) both; }
+
+        @keyframes grow {
+            from { transform: scale(0); }
+            to   { transform: scale(1); }
+        }
+
+        .bloom {
+            width: 100%;
+            height: 100%;
+            transform-origin: 50% 100%;
+            animation: sway var(--dur) ease-in-out infinite alternate;
+            animation-delay: var(--delay);
+        }
+        .bloom svg { width: 100%; height: 100%; display: block; overflow: visible; }
+
+        @keyframes sway {
+            from { transform: rotate(calc(var(--amp) * -1)); }
+            to   { transform: rotate(var(--amp)); }
+        }
+
+        /* ---------- Picnic de Kitty ---------- */
+        .blanket {
+            position: fixed;
+            left: 50%;
+            bottom: 17vh;
+            width: min(330px, 60vw);
+            height: 96px;
+            z-index: 4;
+            transform: translateX(-50%) perspective(420px) rotateX(58deg);
+            background-color: #fff;
+            background-image:
+                linear-gradient(90deg, rgba(228, 0, 43, .55) 50%, transparent 50%),
+                linear-gradient(rgba(228, 0, 43, .55) 50%, transparent 50%);
+            background-size: 32px 32px;
+            border: 4px solid var(--red);
+            border-radius: 12px;
+            box-shadow: 0 8px 0 rgba(0, 0, 0, .12);
+        }
+
+        .kitty-wrap {
+            position: fixed;
+            left: 50%;
+            bottom: calc(17vh + 16px);
+            width: 128px;
+            margin-left: -64px;
+            z-index: 6;
+            cursor: pointer;
+            filter: drop-shadow(0 6px 0 rgba(0, 0, 0, .08));
+        }
+        .kitty-wrap:focus-visible { outline: 4px solid var(--yellow); outline-offset: 4px; border-radius: 30px; }
+        .kitty { width: 100%; height: auto; display: block; overflow: visible; }
+        .kitty .head-group { transform-origin: 100px 150px; animation: tilt 3.6s ease-in-out infinite; }
+        .kitty .eye { transform-box: fill-box; transform-origin: center; animation: blink 5s infinite; }
+
+        @keyframes tilt  { 0%, 100% { transform: rotate(-3deg); } 50% { transform: rotate(3deg); } }
+        @keyframes blink { 0%, 91%, 100% { transform: scaleY(1); } 94% { transform: scaleY(.08); } }
+
+        /* ---------- Mariposas ---------- */
+        .bf {
+            position: fixed;
+            left: -60px;
+            z-index: 20;
+            font-size: var(--size);
+            pointer-events: none;
+            animation: fly var(--d) linear infinite;
+            animation-delay: var(--s);
+        }
+        .bf span { display: block; animation: bob 2.2s ease-in-out infinite alternate; }
+
+        @keyframes fly { to { transform: translateX(calc(100vw + 140px)); } }
+        @keyframes bob {
+            from { transform: translateY(-26px) rotate(-10deg); }
+            to   { transform: translateY(26px) rotate(12deg); }
+        }
+
+        /* ---------- Título ---------- */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            z-index: 30;
+            text-align: center;
+            padding: 22px 16px 0;
+            pointer-events: none;
+        }
+
+        h1 {
+            margin: 0;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: clamp(2rem, 7vw, 3.8rem);
+            line-height: 1.05;
+            color: var(--red);
+            -webkit-text-stroke: 8px var(--white);
+            paint-order: stroke fill;
+            text-shadow: 0 5px 0 var(--pink-line);
+        }
+
+        .hint {
+            display: inline-block;
+            margin: 12px 0 0;
+            padding: 7px 18px;
+            font-weight: 700;
+            font-size: 1rem;
+            color: var(--white);
+            background: var(--red);
+            border-radius: 999px;
+            box-shadow: 0 4px 0 var(--red-dark);
+        }
+
+        /* ---------- Barra inferior ---------- */
+        .nav {
+            position: fixed;
+            left: 0;
+            right: 0;
+            bottom: 14px;
+            z-index: 40;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            padding: 0 12px;
+        }
+
+        .btn, .count {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 1rem;
+            border-radius: 999px;
+            padding: 10px 20px;
+            border: 3px solid var(--red-dark);
+        }
+
+        .btn {
+            text-decoration: none;
+            cursor: pointer;
+            color: var(--white);
+            background: var(--red);
+            box-shadow: 0 5px 0 var(--red-dark);
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+        .btn.alt { background: var(--white); color: var(--red); border-color: var(--red); box-shadow: 0 5px 0 var(--pink-line); }
+        .btn:hover { transform: translateY(-3px); }
+        .btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--red-dark); }
+        .btn:focus-visible { outline: 4px solid var(--yellow); outline-offset: 3px; }
+
+        .count {
+            background: #fff;
+            color: var(--red-dark);
+            border-color: var(--pink-line);
+            box-shadow: 0 5px 0 var(--pink-line);
+        }
+
+        /* ---------- Chispas al plantar ---------- */
+        .burst {
+            position: fixed;
+            z-index: 50;
+            pointer-events: none;
+            font-size: 1.3rem;
+            animation: burst .9s ease-out forwards;
+        }
+        @keyframes burst {
+            0%   { transform: translate(-50%, -50%) scale(.6); opacity: 1; }
+            100% { transform: translate(calc(-50% + var(--dx)), calc(-50% - 80px)) scale(1.3); opacity: 0; }
+        }
+
+        @media (max-width: 600px) {
+            .sun { width: 64px; height: 64px; }
+            .kitty-wrap { width: 104px; margin-left: -52px; }
+            .btn, .count { font-size: .92rem; padding: 9px 15px; }
+            .hint { font-size: .9rem; }
+        }
+
+        @media (prefers-reduced-motion: reduce) {
+            .cloud, .bf, .sun { animation: none; }
+            .cloud { left: 10vw; }
+            .bf { display: none; }
+            .bloom, .kitty .head-group, .kitty .eye { animation: none; }
+            .flower.plant { animation: none; }
+            .burst { animation-duration: .01s; }
+            * { transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="sky"></div>
+    <div class="sun"></div>
+    <div class="cloud" style="top: 14vh; --d: 60s; --s: -12s;"></div>
+    <div class="cloud" style="top: 26vh; --d: 80s; --s: -50s; transform: scale(.75);"></div>
+    <div class="cloud" style="top: 8vh;  --d: 95s; --s: -75s; transform: scale(.55);"></div>
+
+    <svg class="hills" viewBox="0 0 1440 600" preserveAspectRatio="none" aria-hidden="true">
+        <path d="M0 200 C240 90 460 160 700 130 C960 100 1180 40 1440 120 L1440 600 L0 600 Z" fill="#c3ebb0"/>
+        <path d="M0 290 C220 210 480 280 740 240 C1000 200 1220 170 1440 250 L1440 600 L0 600 Z" fill="#9edb92"/>
+        <path d="M0 380 C260 320 500 390 780 350 C1040 315 1240 300 1440 370 L1440 600 L0 600 Z" fill="#76c877"/>
+        <path d="M0 470 C300 430 560 490 820 460 C1080 430 1260 430 1440 480 L1440 600 L0 600 Z" fill="#58b566"/>
+    </svg>
+
+    <header>
+        <h1>Campo de Hello Kitty para ti</h1>
+        <p class="hint">Toca el campo para plantar una Kitty 🎀</p>
+    </header>
+
+    <div class="blanket" aria-hidden="true"></div>
+
+    <div class="kitty-wrap" id="kitty" role="button" tabindex="0" aria-label="Hello Kitty en su picnic. Tócala para que suelte corazones">
+        <svg class="kitty" viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <g class="head-group" stroke="#3b2a30" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+                <path d="M40 76 L33 24 Q33 15 42 19 L92 46 Z" fill="#fff"/>
+                <path d="M160 76 L167 24 Q167 15 158 19 L108 46 Z" fill="#fff"/>
+                <ellipse cx="100" cy="104" rx="82" ry="60" fill="#fff"/>
+                <ellipse class="eye" cx="64" cy="106" rx="6.5" ry="8" fill="#3b2a30" stroke="none"/>
+                <ellipse class="eye" cx="136" cy="106" rx="6.5" ry="8" fill="#3b2a30" stroke="none"/>
+                <ellipse cx="100" cy="118" rx="9" ry="6" fill="#ffcf33" stroke-width="3.5"/>
+                <g fill="none" stroke-width="3.5">
+                    <path d="M14 94 L42 101"/><path d="M10 111 L42 111"/><path d="M14 128 L42 121"/>
+                    <path d="M186 94 L158 101"/><path d="M190 111 L158 111"/><path d="M186 128 L158 121"/>
+                </g>
+                <g stroke="#8f0018" stroke-width="3.5">
+                    <ellipse cx="127" cy="38" rx="20" ry="14" fill="#e4002b" transform="rotate(-22 127 38)"/>
+                    <ellipse cx="171" cy="36" rx="20" ry="14" fill="#e4002b" transform="rotate(22 171 36)"/>
+                    <circle cx="149" cy="42" r="10" fill="#ff3b5c"/>
+                </g>
+                <ellipse cx="122" cy="31" rx="8" ry="3.5" fill="#ff8aa0" stroke="none" transform="rotate(-22 122 31)"/>
+                <ellipse cx="176" cy="29" rx="8" ry="3.5" fill="#ff8aa0" stroke="none" transform="rotate(22 176 29)"/>
+            </g>
+        </svg>
+    </div>
+
+    <div id="field" aria-hidden="true"></div>
+
+    <div class="nav">
+        <a href="index.html" class="btn">🎀 Inicio</a>
+        <a href="carta.html" class="btn alt">✉️ Carta</a>
+        <a href="tamo.html" class="btn">te amo</a>
+        <button type="button" class="btn alt" id="windBtn">🌬️ Viento</button>
+        <button type="button" class="btn alt" id="resetBtn">🌱 Nuevo campo</button>
+        <span class="count" id="count" aria-live="polite">🎀 0 flores</span>
+    </div>
+
+    <script>
+        const field = document.getElementById('field');
+        const countEl = document.getElementById('count');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        const isSmall = () => innerWidth < 600;
+
+        const palettes = [
+            ['#ffffff', '#ffd23f'],
+            ['#ffb6c9', '#ffd23f'],
+            ['#ff7fa3', '#fff3a0'],
+            ['#c9b6ff', '#fff3a0'],
+            ['#a9d4ff', '#ffd23f'],
+            ['#ffe27a', '#ff8a3d'],
+            ['#ff5b7a', '#ffe27a']
+        ];
+
+        const rand = (a, b) => a + Math.random() * (b - a);
+        const pick = arr => arr[Math.floor(Math.random() * arr.length)];
+
+        function bloomSVG(kind, c1, c2) {
+            const cy = 40;
+            const stroke = 'rgba(74,47,56,.18)';
+            if (kind === 'kitty') {
+                const bow = pick(['#e4002b', '#ff7fa3', '#4d8df0', '#ffcf33']);
+                const ink = '#3b2a30';
+                return `<g transform="translate(30 40) scale(.26) translate(-100 -104)" stroke="${ink}" stroke-width="5" stroke-linejoin="round" stroke-linecap="round">` +
+                    `<path d="M40 76 L33 24 Q33 15 42 19 L92 46 Z" fill="#fff"/>` +
+                    `<path d="M160 76 L167 24 Q167 15 158 19 L108 46 Z" fill="#fff"/>` +
+                    `<ellipse cx="100" cy="104" rx="82" ry="60" fill="#fff"/>` +
+                    `<ellipse cx="64" cy="106" rx="6.5" ry="8" fill="${ink}" stroke="none"/>` +
+                    `<ellipse cx="136" cy="106" rx="6.5" ry="8" fill="${ink}" stroke="none"/>` +
+                    `<ellipse cx="100" cy="118" rx="9" ry="6" fill="#ffcf33" stroke-width="4"/>` +
+                    `<g fill="none" stroke-width="4.5"><path d="M14 94 L42 101"/><path d="M10 111 L42 111"/><path d="M14 128 L42 121"/><path d="M186 94 L158 101"/><path d="M190 111 L158 111"/><path d="M186 128 L158 121"/></g>` +
+                    `<ellipse cx="127" cy="38" rx="20" ry="14" fill="${bow}" transform="rotate(-22 127 38)"/>` +
+                    `<ellipse cx="171" cy="36" rx="20" ry="14" fill="${bow}" transform="rotate(22 171 36)"/>` +
+                    `<circle cx="149" cy="42" r="10" fill="${bow}"/>` +
+                    `<circle cx="149" cy="42" r="4" fill="#fff" stroke="none" opacity=".55"/>` +
+                    `</g>`;
+            }
+            if (kind === 'daisy') {
+                let p = '';
+                for (let i = 0; i < 10; i++) {
+                    p += `<ellipse cx="30" cy="${cy}" rx="4.6" ry="12" fill="${c1}" stroke="${stroke}" stroke-width="1" transform="rotate(${i * 36} 30 ${cy}) translate(0 -12)"/>`;
+                }
+                return p + `<circle cx="30" cy="${cy}" r="7" fill="${c2}" stroke="${stroke}" stroke-width="1"/>`;
+            }
+            if (kind === 'five') {
+                let p = '';
+                for (let i = 0; i < 5; i++) {
+                    p += `<circle cx="30" cy="${cy - 11}" r="9.5" fill="${c1}" stroke="${stroke}" stroke-width="1" transform="rotate(${i * 72} 30 ${cy})"/>`;
+                }
+                return p + `<circle cx="30" cy="${cy}" r="6.5" fill="${c2}" stroke="${stroke}" stroke-width="1"/>`;
+            }
+            if (kind === 'tulip') {
+                return `<path d="M15 22 Q12 58 30 60 Q48 58 45 22 L38 33 L30 18 L22 33 Z" fill="${c1}" stroke="${stroke}" stroke-width="1.5" stroke-linejoin="round"/>` +
+                       `<ellipse cx="24" cy="40" rx="3.5" ry="10" fill="#fff" opacity=".35"/>`;
+            }
+            /* moño de Hello Kitty */
+            return `<ellipse cx="17" cy="${cy}" rx="14" ry="9.5" fill="#e4002b" stroke="#8f0018" stroke-width="2" transform="rotate(-18 17 ${cy})"/>` +
+                   `<ellipse cx="43" cy="${cy}" rx="14" ry="9.5" fill="#e4002b" stroke="#8f0018" stroke-width="2" transform="rotate(18 43 ${cy})"/>` +
+                   `<circle cx="30" cy="${cy + 1}" r="6.5" fill="#ff5b7a" stroke="#8f0018" stroke-width="2"/>`;
+        }
+
+        function flowerSVG() {
+            const r = Math.random();
+            const kind = r < .42 ? 'kitty' : r < .60 ? 'bow' : r < .75 ? 'daisy' : r < .88 ? 'five' : 'tulip';
+            const [c1, c2] = pick(palettes);
+            const leaf = pick(['#4fae5c', '#5cbf6a', '#3f9c52']);
+            return `<svg viewBox="0 0 60 140" xmlns="http://www.w3.org/2000/svg">` +
+                `<path d="M30 140 C26 110 34 85 30 54" fill="none" stroke="${leaf}" stroke-width="4.5" stroke-linecap="round"/>` +
+                `<path d="M30 116 C14 112 9 98 11 91 C24 91 30 102 30 116Z" fill="${leaf}"/>` +
+                `<path d="M30 98 C46 94 51 82 49 75 C36 75 30 86 30 98Z" fill="${leaf}"/>` +
+                bloomSVG(kind, c1, c2) + `</svg>`;
+        }
+
+        let planted = 0;
+        function updateCount() {
+            countEl.textContent = '🎀 ' + planted + (planted === 1 ? ' flor' : ' flores');
+        }
+
+        function addFlower(fx, fy, animate) {
+            const scale = isSmall() ? .8 : 1;
+            const h = (46 + fy * 112) * scale;
+            const w = h * 60 / 140;
+
+            const f = document.createElement('div');
+            f.className = 'flower' + (animate ? ' plant' : '');
+            f.style.height = h + 'px';
+            f.style.width = w + 'px';
+            f.style.left = (fx * 100) + '%';
+            f.style.marginLeft = (-w / 2) + 'px';
+            f.style.bottom = ((1 - fy) * 100) + '%';
+            f.style.zIndex = Math.round(fy * 1000);
+            f.style.setProperty('--dur', rand(1.8, 3.6).toFixed(2) + 's');
+            f.style.setProperty('--delay', (-rand(0, 3.6)).toFixed(2) + 's');
+            f.innerHTML = `<div class="bloom">${flowerSVG()}</div>`;
+            field.appendChild(f);
+
+            planted++;
+            updateCount();
+            if (field.children.length > 450) { field.firstElementChild.remove(); planted--; }
+        }
+
+        function seed() {
+            field.innerHTML = '';
+            planted = 0;
+            const n = isSmall() ? 55 : 110;
+            let placed = 0, tries = 0;
+            while (placed < n && tries < n * 6) {
+                tries++;
+                const fx = Math.random();
+                const fy = 0.04 + 0.96 * Math.sqrt(Math.random());
+                // Deja libre el picnic de Kitty
+                if (fx > .33 && fx < .67 && fy > .5 && fy < .92) continue;
+                addFlower(fx, fy, false);
+                placed++;
+            }
+        }
+
+        function burst(x, y, n = 4) {
+            if (reduceMotion) return;
+            const icons = ['✨', '🌸', '💖', '🎀'];
+            for (let i = 0; i < n; i++) {
+                const s = document.createElement('span');
+                s.className = 'burst';
+                s.textContent = pick(icons);
+                s.style.left = x + 'px';
+                s.style.top = y + 'px';
+                s.style.setProperty('--dx', rand(-55, 55) + 'px');
+                s.style.animationDelay = (i * 45) + 'ms';
+                document.body.appendChild(s);
+                setTimeout(() => s.remove(), 1200);
+            }
+        }
+
+        // Plantar una flor donde toques
+        document.addEventListener('pointerdown', e => {
+            if (e.target.closest('.nav, .kitty-wrap')) return;
+            const r = field.getBoundingClientRect();
+            if (e.clientY < r.top + 10) return;
+            const fx = Math.min(.98, Math.max(.02, (e.clientX - r.left) / r.width));
+            const fy = Math.min(1, Math.max(0, (e.clientY - r.top) / r.height));
+            addFlower(fx, fy, true);
+            burst(e.clientX, e.clientY, 3);
+        });
+
+        // Kitty suelta corazones
+        const kitty = document.getElementById('kitty');
+        function kittyLove() {
+            const r = kitty.getBoundingClientRect();
+            burst(r.left + r.width / 2, r.top + r.height / 3, 7);
+        }
+        kitty.addEventListener('click', kittyLove);
+        kitty.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); kittyLove(); }
+        });
+
+        // Viento
+        let windTimer;
+        document.getElementById('windBtn').addEventListener('click', () => {
+            document.body.classList.add('windy');
+            clearTimeout(windTimer);
+            windTimer = setTimeout(() => document.body.classList.remove('windy'), 4000);
+        });
+
+        document.getElementById('resetBtn').addEventListener('click', seed);
+
+        // Mariposas
+        const bfIcons = ['🦋', '🦋', '🐝', '🦋'];
+        for (let i = 0; i < 5; i++) {
+            const b = document.createElement('div');
+            b.className = 'bf';
+            b.style.top = rand(16, 58) + 'vh';
+            b.style.setProperty('--d', rand(16, 28).toFixed(1) + 's');
+            b.style.setProperty('--s', (-rand(0, 24)).toFixed(1) + 's');
+            b.style.setProperty('--size', rand(22, 34).toFixed(0) + 'px');
+            b.innerHTML = `<span>${pick(bfIcons)}</span>`;
+            document.body.appendChild(b);
+        }
+
+        seed();
+    </script>
+</body>
+</html>

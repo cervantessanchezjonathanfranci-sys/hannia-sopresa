@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Veces Te Amo - Hello Kitty 🎀</title>
+ 
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@500;600;700&family=Quicksand:wght@500;700&display=swap" rel="stylesheet">
+ 
+    <style>
+        :root {
+            --red: #e4002b;
+            --red-dark: #b8001f;
+            --pink: #ffc2d4;
+            --pink-soft: #fff0f5;
+            --pink-line: #ff8fb1;
+            --blue: #7fa8ee;
+            --blue-soft: #eaf3ff;
+            --yellow: #ffcf33;
+            --yellow-soft: #fff8dc;
+            --ink: #4a2f38;
+            --white: #ffffff;
+        }
+ 
+        * { box-sizing: border-box; }
+ 
+        body {
+            margin: 0;
+            font-family: 'Quicksand', sans-serif;
+            color: var(--ink);
+            background-color: #fff;
+            /* Cuadros gingham rosa, clásico de Sanrio */
+            background-image:
+                linear-gradient(90deg, rgba(255, 143, 177, .38) 50%, transparent 50%),
+                linear-gradient(rgba(255, 143, 177, .38) 50%, transparent 50%);
+            background-size: 56px 56px;
+            background-attachment: fixed;
+            overflow-x: hidden;
+        }
+ 
+        /* ---------- Hero con Hello Kitty ---------- */
+        header {
+            text-align: center;
+            padding: 44px 20px 10px;
+            position: relative;
+            z-index: 1;
+        }
+ 
+        .kitty-wrap {
+            width: 230px;
+            margin: 0 auto;
+            cursor: pointer;
+            -webkit-tap-highlight-color: transparent;
+            filter: drop-shadow(0 10px 0 rgba(228, 0, 43, .12));
+        }
+ 
+        .kitty-wrap:focus-visible { outline: 4px solid var(--yellow); outline-offset: 6px; border-radius: 40px; }
+ 
+        .kitty { width: 100%; height: auto; display: block; overflow: visible; }
+ 
+        .kitty .head-group { transform-origin: 100px 150px; animation: tilt 3.6s ease-in-out infinite; }
+ 
+        @keyframes tilt {
+            0%, 100% { transform: rotate(-3deg); }
+            50%      { transform: rotate(3deg); }
+        }
+ 
+        .kitty .eye {
+            transform-box: fill-box;
+            transform-origin: center;
+            animation: blink 5s infinite;
+        }
+ 
+        @keyframes blink {
+            0%, 91%, 100% { transform: scaleY(1); }
+            94%           { transform: scaleY(.08); }
+        }
+ 
+        .kitty-wrap.pop .head-group { animation: hop .5s ease-out; }
+ 
+        @keyframes hop {
+            0%   { transform: translateY(0) scale(1); }
+            35%  { transform: translateY(-16px) scale(1.06, .96); }
+            100% { transform: translateY(0) scale(1); }
+        }
+ 
+        h1 {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 700;
+            font-size: clamp(2.6rem, 9vw, 4.6rem);
+            line-height: 1.05;
+            color: var(--red);
+            margin: 14px 0 0;
+            -webkit-text-stroke: 9px var(--white);
+            paint-order: stroke fill;
+            text-shadow: 0 6px 0 var(--pink-line);
+            letter-spacing: .5px;
+        }
+ 
+        .subtitle {
+            display: inline-block;
+            margin: 18px 0 0;
+            padding: 8px 22px;
+            font-weight: 700;
+            font-size: 1.05rem;
+            color: var(--white);
+            background: var(--red);
+            border-radius: 999px;
+            box-shadow: 0 4px 0 var(--red-dark);
+        }
+ 
+        /* ---------- Contador ---------- */
+        .meter-box {
+            max-width: 520px;
+            margin: 26px auto 0;
+            padding: 0 6px;
+        }
+ 
+        .meter-label {
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--red-dark);
+            margin-bottom: 8px;
+        }
+ 
+        .meter {
+            height: 22px;
+            background: var(--white);
+            border: 3px solid var(--red);
+            border-radius: 999px;
+            overflow: hidden;
+            box-shadow: 0 4px 0 var(--pink-line);
+        }
+ 
+        .meter-fill {
+            height: 100%;
+            width: 0%;
+            background: repeating-linear-gradient(45deg, var(--red) 0 12px, #ff4d6d 12px 24px);
+            border-radius: 999px;
+            transition: width .35s ease;
+        }
+ 
+        .hint {
+            margin: 10px 0 0;
+            font-size: .95rem;
+            font-weight: 700;
+            color: var(--ink);
+            opacity: .75;
+        }
+ 
+        /* ---------- Contenedor ---------- */
+        .container {
+            position: relative;
+            z-index: 1;
+            max-width: 1100px;
+            margin: 34px auto 40px;
+            padding: 38px 30px 34px;
+            background: rgba(255, 255, 255, .94);
+            border: 5px solid var(--red);
+            border-radius: 44px;
+            box-shadow: 0 10px 0 var(--pink-line), 0 22px 40px rgba(228, 0, 43, .14);
+        }
+ 
+        /* Costura punteada interior */
+        .container::before {
+            content: '';
+            position: absolute;
+            inset: 9px;
+            border: 3px dashed var(--pink-line);
+            border-radius: 34px;
+            pointer-events: none;
+        }
+ 
+        /* Moño grande en la esquina */
+        .container::after {
+            content: '';
+            position: absolute;
+            top: -34px;
+            left: 50%;
+            width: 92px;
+            height: 58px;
+            transform: translateX(-50%);
+            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 92 58'><ellipse cx='26' cy='29' rx='24' ry='18' fill='%23e4002b' stroke='%23b8001f' stroke-width='3' transform='rotate(-14 26 29)'/><ellipse cx='66' cy='29' rx='24' ry='18' fill='%23e4002b' stroke='%23b8001f' stroke-width='3' transform='rotate(14 66 29)'/><ellipse cx='20' cy='22' rx='8' ry='4' fill='%23ff6b86' transform='rotate(-20 20 22)'/><ellipse cx='72' cy='22' rx='8' ry='4' fill='%23ff6b86' transform='rotate(20 72 22)'/><circle cx='46' cy='31' r='11' fill='%23ff3b5c' stroke='%23b8001f' stroke-width='3'/></svg>") center / contain no-repeat;
+            pointer-events: none;
+        }
+ 
+        .languages-grid {
+            position: relative;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(190px, 1fr));
+            gap: 20px;
+            margin: 0;
+            padding: 12px 10px 4px;
+        }
+ 
+        /* ---------- Tarjetas ---------- */
+        .lang-card {
+            --bg: var(--pink-soft);
+            --bd: var(--pink-line);
+            position: relative;
+            font: inherit;
+            color: inherit;
+            text-align: center;
+            padding: 22px 12px 16px;
+            background: var(--bg);
+            border: 3px solid var(--bd);
+            border-radius: 26px;
+            box-shadow: 0 5px 0 var(--bd);
+            cursor: pointer;
+            transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
+        }
+ 
+        .lang-card:nth-child(4n+2) { --bg: var(--white);       --bd: var(--red); }
+        .lang-card:nth-child(4n+3) { --bg: var(--blue-soft);   --bd: var(--blue); }
+        .lang-card:nth-child(4n+4) { --bg: var(--yellow-soft); --bd: var(--yellow); }
+ 
+        /* Mini moño en cada tarjeta */
+        .lang-card::before {
+            content: '';
+            position: absolute;
+            top: -13px;
+            right: 12px;
+            width: 38px;
+            height: 24px;
+            transform: rotate(12deg);
+            background: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 40 26'><ellipse cx='11' cy='13' rx='10' ry='8' fill='%23e4002b' transform='rotate(-15 11 13)'/><ellipse cx='29' cy='13' rx='10' ry='8' fill='%23e4002b' transform='rotate(15 29 13)'/><circle cx='20' cy='14' r='5' fill='%23ff5b7a'/></svg>") center / contain no-repeat;
+        }
+ 
+        .lang-card:hover { transform: translateY(-4px); box-shadow: 0 9px 0 var(--bd); }
+        .lang-card:active { transform: translateY(2px); box-shadow: 0 2px 0 var(--bd); }
+        .lang-card:focus-visible { outline: 4px solid var(--yellow); outline-offset: 3px; }
+ 
+        .lang-name {
+            display: block;
+            font-size: .9rem;
+            font-weight: 700;
+            color: var(--red-dark);
+            margin-bottom: 6px;
+        }
+ 
+        .phrase {
+            display: block;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 1.22rem;
+            line-height: 1.25;
+            color: var(--red);
+            overflow-wrap: anywhere;
+        }
+ 
+        /* Tarjeta ya "recibida" */
+        .lang-card[aria-pressed="true"] {
+            background: var(--red);
+            border-color: var(--red-dark);
+            box-shadow: 0 5px 0 var(--red-dark);
+        }
+        .lang-card[aria-pressed="true"] .lang-name { color: var(--pink); }
+        .lang-card[aria-pressed="true"] .phrase { color: var(--white); }
+        .lang-card[aria-pressed="true"]::after {
+            content: '💖';
+            position: absolute;
+            left: 10px;
+            bottom: 6px;
+            font-size: .95rem;
+        }
+ 
+        /* La carta número 100 */
+        .lang-card.special {
+            grid-column: 1 / -1;
+            padding: 24px 16px 20px;
+            --bg: var(--pink);
+            --bd: var(--red);
+        }
+        .lang-card.special .phrase { font-size: 1.6rem; }
+ 
+        /* ---------- Botones ---------- */
+        .nav-buttons {
+            position: relative;
+            z-index: 1;
+            display: flex;
+            justify-content: center;
+            gap: 16px;
+            flex-wrap: wrap;
+            padding: 6px 20px 56px;
+        }
+ 
+        .btn {
+            text-decoration: none;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            font-size: 1.05rem;
+            color: var(--white);
+            background: var(--red);
+            padding: 13px 30px;
+            border-radius: 999px;
+            border: 3px solid var(--red-dark);
+            box-shadow: 0 6px 0 var(--red-dark);
+            transition: transform .15s ease, box-shadow .15s ease;
+        }
+        .btn:nth-child(2) { background: var(--white); color: var(--red); border-color: var(--red); box-shadow: 0 6px 0 var(--pink-line); }
+        .btn:hover { transform: translateY(-3px); }
+        .btn:active { transform: translateY(3px); box-shadow: 0 2px 0 var(--red-dark); }
+        .btn:focus-visible { outline: 4px solid var(--yellow); outline-offset: 3px; }
+ 
+        /* ---------- Footer ---------- */
+        footer {
+            position: relative;
+            z-index: 1;
+            text-align: center;
+            padding: 22px 16px 26px;
+            font-family: 'Fredoka', sans-serif;
+            font-weight: 600;
+            color: var(--white);
+            background: var(--red);
+            border-top: 6px dotted var(--pink);
+        }
+        footer p { margin: 0; }
+ 
+        /* ---------- Elementos flotantes ---------- */
+        .floating-item {
+            position: fixed;
+            top: 0;
+            left: 0;
+            z-index: 0;
+            user-select: none;
+            pointer-events: none;
+            animation: floatUp var(--duration) linear infinite;
+        }
+ 
+        @keyframes floatUp {
+            0%   { transform: translateY(105vh) rotate(0deg); opacity: 0; }
+            10%  { opacity: .9; }
+            100% { transform: translateY(-12vh) rotate(360deg); opacity: 0; }
+        }
+ 
+        /* Corazones que salen al hacer clic */
+        .burst {
+            position: fixed;
+            z-index: 50;
+            pointer-events: none;
+            font-size: 1.4rem;
+            animation: burst .9s ease-out forwards;
+        }
+ 
+        @keyframes burst {
+            0%   { transform: translate(-50%, -50%) scale(.6); opacity: 1; }
+            100% { transform: translate(calc(-50% + var(--dx)), calc(-50% - 90px)) scale(1.3); opacity: 0; }
+        }
+ 
+        @media (max-width: 600px) {
+            .kitty-wrap { width: 180px; }
+            .languages-grid { grid-template-columns: repeat(2, 1fr); gap: 16px 12px; padding-inline: 2px; }
+            .phrase { font-size: 1.05rem; }
+            .container { margin: 34px 12px 36px; padding: 34px 14px 26px; border-radius: 34px; }
+            .container::before { border-radius: 26px; }
+            h1 { -webkit-text-stroke-width: 7px; }
+        }
+ 
+        @media (prefers-reduced-motion: reduce) {
+            .floating-item { display: none; }
+            .kitty .head-group, .kitty .eye { animation: none; }
+            .burst { animation-duration: .01s; }
+            * { transition: none !important; }
+        }
+    </style>
+</head>
+<body>
+ 
+    <header>
+        <div class="kitty-wrap" id="kitty" role="button" tabindex="0" aria-label="Hello Kitty. Toca para que salte">
+            <svg class="kitty" viewBox="0 0 200 170" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+                <g class="head-group" stroke="#3b2a30" stroke-width="4" stroke-linejoin="round" stroke-linecap="round">
+                    <!-- Orejas -->
+                    <path d="M40 76 L33 24 Q33 15 42 19 L92 46 Z" fill="#fff"/>
+                    <path d="M160 76 L167 24 Q167 15 158 19 L108 46 Z" fill="#fff"/>
+                    <!-- Cabeza -->
+                    <ellipse cx="100" cy="104" rx="82" ry="60" fill="#fff"/>
+                    <!-- Ojos -->
+                    <ellipse class="eye" cx="64" cy="106" rx="6.5" ry="8" fill="#3b2a30" stroke="none"/>
+                    <ellipse class="eye" cx="136" cy="106" rx="6.5" ry="8" fill="#3b2a30" stroke="none"/>
+                    <!-- Nariz -->
+                    <ellipse cx="100" cy="118" rx="9" ry="6" fill="#ffcf33" stroke-width="3.5"/>
+                    <!-- Bigotes -->
+                    <g fill="none" stroke-width="3.5">
+                        <path d="M14 94 L42 101"/>
+                        <path d="M10 111 L42 111"/>
+                        <path d="M14 128 L42 121"/>
+                        <path d="M186 94 L158 101"/>
+                        <path d="M190 111 L158 111"/>
+                        <path d="M186 128 L158 121"/>
+                    </g>
+                    <!-- Moño -->
+                    <g stroke="#8f0018" stroke-width="3.5">
+                        <ellipse cx="127" cy="38" rx="20" ry="14" fill="#e4002b" transform="rotate(-22 127 38)"/>
+                        <ellipse cx="171" cy="36" rx="20" ry="14" fill="#e4002b" transform="rotate(22 171 36)"/>
+                        <circle cx="149" cy="42" r="10" fill="#ff3b5c"/>
+                    </g>
+                    <ellipse cx="122" cy="31" rx="8" ry="3.5" fill="#ff8aa0" stroke="none" transform="rotate(-22 122 31)"/>
+                    <ellipse cx="176" cy="29" rx="8" ry="3.5" fill="#ff8aa0" stroke="none" transform="rotate(22 176 29)"/>
+                </g>
+            </svg>
+        </div>
+ 
+        <h1>100 Veces Te Amo</h1>
+        <p class="subtitle">Un sentimiento en cien lenguajes 🍎</p>
+ 
+        <div class="meter-box">
+            <div class="meter-label" id="meterLabel" aria-live="polite">0 de 100 te amo recibidos</div>
+            <div class="meter" aria-hidden="true"><div class="meter-fill" id="meterFill"></div></div>
+            <p class="hint">Toca cada tarjeta para guardar ese te amo 💌</p>
+        </div>
+    </header>
+ 
+    <div class="container">
+        <div class="languages-grid" id="langGrid"></div>
+    </div>
+ 
+    <div class="nav-buttons">
+        <a href="index.html" class="btn">🎀 Volver al Inicio</a>
+        <a href="carta.html" class="btn">✉️ Carta</a>
+        <a href="flores.html" class="btn">✉️ flores</a>
+    </div>
+ 
+    <footer>
+        <p>Decirte que te amo nunca es suficiente, ni con 5 manzanas 🍎🍎🍎🍎🍎</p>
+    </footer>
+ 
+    <script>
+        const translations = [
+            {l: "Español", p: "Te amo"},
+            {l: "Inglés", p: "I love you"},
+            {l: "Francés", p: "Je t'aime"},
+            {l: "Italiano", p: "Ti amo"},
+            {l: "Alemán", p: "Ich liebe dich"},
+            {l: "Portugués", p: "Eu te amo"},
+            {l: "Ruso", p: "Ya tebya lyublyu"},
+            {l: "Japonés", p: "Aishiteru"},
+            {l: "Coreano", p: "Saranghae"},
+            {l: "Chino", p: "Wo ai ni"},
+            {l: "Árabe", p: "Uhibbuki"},
+            {l: "Griego", p: "S'agapo"},
+            {l: "Holandés", p: "Ik hou van jou"},
+            {l: "Sueco", p: "Jag älskar dig"},
+            {l: "Noruego", p: "Jeg elsker deg"},
+            {l: "Danés", p: "Jeg elsker dig"},
+            {l: "Finlandés", p: "Minä rakastan sinua"},
+            {l: "Turco", p: "Seni seviyorum"},
+            {l: "Polaco", p: "Kocham cię"},
+            {l: "Húngaro", p: "Szeretlek"},
+            {l: "Checo", p: "Miluji tě"},
+            {l: "Rumano", p: "Te iubesc"},
+            {l: "Catalán", p: "T'estimo"},
+            {l: "Euskera", p: "Maite zaitut"},
+            {l: "Gallego", p: "Ámote"},
+            {l: "Latín", p: "Te amo"},
+            {l: "Esperanto", p: "Mi amas vin"},
+            {l: "Hindi", p: "Main tumse pyar karta hoon"},
+            {l: "Tailandés", p: "Phom rak khun"},
+            {l: "Vietnamita", p: "Anh yêu em"},
+            {l: "Tagalo", p: "Mahal kita"},
+            {l: "Indonesio", p: "Aku cinta kamu"},
+            {l: "Malayo", p: "Saya sayang awak"},
+            {l: "Hebreo", p: "Ani ohev otach"},
+            {l: "Persa", p: "Doset daram"},
+            {l: "Swahili", p: "Nakupenda"},
+            {l: "Afrikáans", p: "Ek het jou lief"},
+            {l: "Islandés", p: "Ég elska þig"},
+            {l: "Irlandés", p: "Is breá liom tú"},
+            {l: "Galés", p: "Rwy'n dy garu di"},
+            {l: "Escocés", p: "Tha gaol agam ort"},
+            {l: "Ucraniano", p: "Ya tebe lyublyu"},
+            {l: "Búlgaro", p: "Obicham te"},
+            {l: "Serbio", p: "Volim te"},
+            {l: "Croata", p: "Volim te"},
+            {l: "Esloveno", p: "Ljubim te"},
+            {l: "Eslovaco", p: "Ľúbim ťa"},
+            {l: "Estonio", p: "Ma armastan sind"},
+            {l: "Letón", p: "Es tevi mīlu"},
+            {l: "Lituano", p: "Aš tave myliu"},
+            {l: "Albanés", p: "Të dua"},
+            {l: "Macedonio", p: "Te sakam"},
+            {l: "Armenio", p: "Yes kez sirum yem"},
+            {l: "Georgiano", p: "Me shen miqvarxar"},
+            {l: "Azerbaiyano", p: "Mən səni sevirəm"},
+            {l: "Kazajo", p: "Men seni jaqsı köremin"},
+            {l: "Uzbeko", p: "Men seni sevaman"},
+            {l: "Mongol", p: "Bi chamd khayrtay"},
+            {l: "Nepalí", p: "Ma timilai maya garchu"},
+            {l: "Bengalí", p: "Ami tomake bhalobashi"},
+            {l: "Punjabi", p: "Mai tainu pyar karda ha"},
+            {l: "Gujarati", p: "Hu tane prem karu chu"},
+            {l: "Tamil", p: "Naan unnai kadhalikkiren"},
+            {l: "Telugu", p: "Nenu ninnu premistunnanu"},
+            {l: "Canarés", p: "Naanu ninnanu prithisuthene"},
+            {l: "Malayalam", p: "Njan ninne mohikkunnu"},
+            {l: "Cingalés", p: "Mama oyata adareyi"},
+            {l: "Birmano", p: "Chit pa de"},
+            {l: "Jemer", p: "Soro lanh nhee"},
+            {l: "Lao", p: "Khon hak chao"},
+            {l: "Zulú", p: "Ngiyakuthanda"},
+            {l: "Xhosa", p: "Ndiyaguthanda"},
+            {l: "Yoruba", p: "Mo ni fe re"},
+            {l: "Igbo", p: "Afurum gi nanya"},
+            {l: "Amárico", p: "Ewedishalehu"},
+            {l: "Somalí", p: "Wa ku jecelahay"},
+            {l: "Maorí", p: "Aroha ana ahau ki a koe"},
+            {l: "Samoano", p: "Ou te alofa ia te oe"},
+            {l: "Fiyiano", p: "Au lomani iko"},
+            {l: "Hawaiiano", p: "Aloha wau ia 'oe"},
+            {l: "Quechua", p: "Cuyayquim"},
+            {l: "Guaraní", p: "Rohayhu"},
+            {l: "Náhuatl", p: "Ni mits tlayotla"},
+            {l: "Maya", p: "In yaakumech"},
+            {l: "Luxemburgués", p: "Ech hun dech gär"},
+            {l: "Bretón", p: "Da garout a ran"},
+            {l: "Córnico", p: "My a'th kar"},
+            {l: "Leonés", p: "Ámote"},
+            {l: "Aragonés", p: "Te amo"},
+            {l: "Élfico (Quenya)", p: "Melinyë"},
+            {l: "Élfico (Sindarin)", p: "Gellon nî"},
+            {l: "Klingon", p: "bangwI' SoH"},
+            {l: "Dothraki", p: "Anha zhilak yera"},
+            {l: "Alto Valyrio", p: "Avy jorrāelan"},
+            {l: "Aymara", p: "Munasmawa"},
+            {l: "Quechua (Cusco)", p: "Munayqui"},
+            {l: "Mapudungun", p: "Piwkeyeyu"},
+            {l: "Bari", p: "Nan nyat tiri"},
+            {l: "Sánscrito", p: "Tvayi snihyāmi"},
+            {l: "Gatuno (idioma Kitty)", p: "Miau miau 💖", special: true}
+        ];
+ 
+        const total = translations.length;
+        const grid = document.getElementById('langGrid');
+        const fill = document.getElementById('meterFill');
+        const label = document.getElementById('meterLabel');
+        const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+        let received = 0;
+ 
+        function heartBurst(x, y, count = 5) {
+            if (reduceMotion) return;
+            const hearts = ['💖', '🎀', '🍎', '💗', '⭐'];
+            for (let i = 0; i < count; i++) {
+                const h = document.createElement('span');
+                h.className = 'burst';
+                h.textContent = hearts[Math.floor(Math.random() * hearts.length)];
+                h.style.left = x + 'px';
+                h.style.top = y + 'px';
+                h.style.setProperty('--dx', (Math.random() * 120 - 60) + 'px');
+                h.style.animationDelay = (i * 45) + 'ms';
+                document.body.appendChild(h);
+                setTimeout(() => h.remove(), 1200);
+            }
+        }
+ 
+        function updateMeter() {
+            fill.style.width = (received / total * 100) + '%';
+            label.textContent = received === total
+                ? '¡Cien veces te amo! 🎀💖🎀'
+                : received + ' de ' + total + ' te amo recibidos';
+        }
+ 
+        translations.forEach(item => {
+            const card = document.createElement('button');
+            card.type = 'button';
+            card.className = 'lang-card' + (item.special ? ' special' : '');
+            card.setAttribute('aria-pressed', 'false');
+            card.innerHTML = `<span class="lang-name">${item.l}</span><span class="phrase">${item.p}</span>`;
+            card.addEventListener('click', e => {
+                const on = card.getAttribute('aria-pressed') !== 'true';
+                card.setAttribute('aria-pressed', on);
+                received += on ? 1 : -1;
+                updateMeter();
+                if (on) {
+                    const r = card.getBoundingClientRect();
+                    heartBurst(e.clientX || r.left + r.width / 2, e.clientY || r.top + r.height / 2);
+                    if (received === total) {
+                        for (let k = 0; k < 6; k++) setTimeout(() => heartBurst(Math.random() * innerWidth, innerHeight * .6, 6), k * 200);
+                    }
+                }
+            });
+            grid.appendChild(card);
+        });
+ 
+        updateMeter();
+ 
+        // Hello Kitty salta y suelta corazones
+        const kitty = document.getElementById('kitty');
+        function kittyHop() {
+            kitty.classList.remove('pop');
+            void kitty.offsetWidth;
+            kitty.classList.add('pop');
+            const r = kitty.getBoundingClientRect();
+            heartBurst(r.left + r.width / 2, r.top + r.height / 3, 7);
+        }
+        kitty.addEventListener('click', kittyHop);
+        kitty.addEventListener('keydown', e => {
+            if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); kittyHop(); }
+        });
+ 
+        // Íconos flotantes de fondo
+        const icons = ['🎀', '🍎', '💖', '🍓', '⭐', '🥛', '🐾', '🍰'];
+        for (let i = 0; i < 20; i++) {
+            const item = document.createElement('div');
+            item.className = 'floating-item';
+            item.textContent = icons[Math.floor(Math.random() * icons.length)];
+            item.style.fontSize = (Math.random() * 14 + 18) + 'px';
+            item.style.left = Math.random() * 96 + 'vw';
+            item.style.setProperty('--duration', (Math.random() * 7 + 8) + 's');
+            item.style.animationDelay = (-Math.random() * 12) + 's';
+            document.body.appendChild(item);
+        }
+    </script>
+</body>
+</html>
